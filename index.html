@@ -90,89 +90,132 @@
     }
     .hero-content { max-width: 920px; text-align: center; position: relative; }
 
-    /* ── PROFILE PHOTO ── */
+    /* ── PROFILE PHOTO — centred ── */
     .hero-avatar-wrap {
-      position: relative; display: inline-block; margin-bottom: 1.75rem;
+      position: relative; display: flex; justify-content: center;
+      margin: 0 auto 1.5rem; width: fit-content;
     }
     .hero-avatar {
-      width: 112px; height: 112px; border-radius: 50%;
+      width: 110px; height: 110px; border-radius: 50%;
       border: 3px solid transparent;
       background: linear-gradient(var(--bg), var(--bg)) padding-box,
                   linear-gradient(135deg, var(--primary), var(--accent)) border-box;
-      object-fit: cover;
-      display: block;
-      box-shadow: 0 0 0 6px rgba(14,165,233,0.12), 0 8px 32px rgba(0,0,0,0.35);
+      object-fit: cover; display: block;
+      box-shadow: 0 0 0 6px rgba(14,165,233,0.1), 0 8px 32px rgba(0,0,0,0.35);
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .hero-avatar:hover {
       transform: scale(1.06);
-      box-shadow: 0 0 0 8px rgba(14,165,233,0.18), 0 12px 40px rgba(0,0,0,0.45);
+      box-shadow: 0 0 0 10px rgba(14,165,233,0.15), 0 12px 40px rgba(0,0,0,0.45);
     }
     .hero-avatar-online {
-      position: absolute; bottom: 6px; right: 6px;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: var(--accent);
-      border: 3px solid var(--bg);
-      box-shadow: 0 0 8px rgba(16,185,129,0.6);
+      position: absolute; bottom: 4px; right: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--accent); border: 3px solid var(--bg);
+      box-shadow: 0 0 8px rgba(16,185,129,0.7);
     }
 
+    /* ── FDE badge ── */
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--primary-dim); border: 1px solid rgba(14,165,233,0.3);
       color: var(--primary); border-radius: 100px;
-      padding: 6px 18px; font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 1.5rem;
+      padding: 5px 16px; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 1.25rem;
     }
-    .hero-badge::before { content: '⚡'; font-size: 1rem; }
+    .hero-badge::before { content: '⚡'; font-size: 0.9rem; }
 
-    /* ── TODAY'S #1 REPO WIDGET ── */
-    .top-repo-widget {
-      display: flex; align-items: center; gap: 1rem;
-      background: var(--card-bg);
-      border: 1px solid rgba(14,165,233,0.25);
-      border-radius: 16px; padding: 1rem 1.5rem;
-      margin: 0 auto 2.5rem; max-width: 620px;
-      backdrop-filter: blur(10px);
-      text-align: left; text-decoration: none; color: inherit;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      box-shadow: 0 2px 16px rgba(14,165,233,0.08);
-      position: relative; overflow: hidden;
+    /* ── Live date badge ── */
+    .hero-date-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25);
+      color: var(--accent); border-radius: 100px;
+      padding: 4px 14px; font-size: 0.75rem; font-weight: 700;
+      margin-bottom: 2rem; letter-spacing: 0.3px;
     }
-    .top-repo-widget::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-    }
-    .top-repo-widget:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(14,165,233,0.18); border-color: rgba(14,165,233,0.45); }
-    .top-repo-pulse {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0;
+    .date-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
       box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
-      animation: pulse-ring 2s ease-out infinite;
+      animation: pulse-ring 2s ease-out infinite; flex-shrink: 0;
     }
     @keyframes pulse-ring {
       0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
-      70%  { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+      70%  { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
       100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
     }
-    .top-repo-label {
-      font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.8px; color: var(--accent); margin-bottom: 2px;
+
+    /* ── Trending repos header ── */
+    .trending-header {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      margin-bottom: 1rem;
     }
-    .top-repo-name {
-      font-size: 1rem; font-weight: 700; color: var(--text);
+    .trending-label {
+      font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-muted);
+    }
+    .trending-line {
+      flex: 1; max-width: 80px; height: 1px; background: var(--border);
+    }
+
+    /* ── 4-tile repo grid ── */
+    .repo-tiles {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.875rem; margin-bottom: 2.5rem;
+    }
+    .repo-tile {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1rem 1rem 0.875rem;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 0.35rem;
+      text-align: left; position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .repo-tile::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    }
+    .repo-tile:nth-child(1)::before { background: linear-gradient(90deg,#f59e0b,#f97316); }
+    .repo-tile:nth-child(2)::before { background: linear-gradient(90deg,#94a3b8,#64748b); }
+    .repo-tile:nth-child(3)::before { background: linear-gradient(90deg,#cd7c2f,#a16207); }
+    .repo-tile:nth-child(4)::before { background: linear-gradient(90deg,var(--primary),var(--secondary)); }
+    .repo-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      border-color: rgba(14,165,233,0.35);
+    }
+    .repo-tile-rank {
+      font-size: 0.68rem; font-weight: 900; text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 0.1rem;
+    }
+    .repo-tile:nth-child(1) .repo-tile-rank { color: #f59e0b; }
+    .repo-tile:nth-child(2) .repo-tile-rank { color: #94a3b8; }
+    .repo-tile:nth-child(3) .repo-tile-rank { color: #cd7c2f; }
+    .repo-tile:nth-child(4) .repo-tile-rank { color: var(--primary); }
+    .repo-tile-name {
+      font-size: 0.82rem; font-weight: 700; color: var(--text);
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      max-width: 280px;
+      line-height: 1.2;
     }
-    .top-repo-desc {
-      font-size: 0.78rem; color: var(--text-muted);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      max-width: 280px;
+    .repo-tile-desc {
+      font-size: 0.74rem; color: var(--text-muted); line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; flex: 1;
     }
-    .top-repo-meta { margin-left: auto; text-align: right; flex-shrink: 0; }
-    .top-repo-stars { font-size: 0.9rem; font-weight: 800; color: #f59e0b; white-space: nowrap; }
-    .top-repo-date  { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
-    .top-repo-skeleton { opacity: 0.4; animation: shimmer 1.5s ease-in-out infinite; }
-    @keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+    .repo-tile-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border);
+    }
+    .repo-tile-stars { font-size: 0.78rem; font-weight: 800; color: #f59e0b; }
+    .repo-tile-lang {
+      font-size: 0.68rem; padding: 2px 7px; border-radius: 100px;
+      background: var(--bg-3); color: var(--text-muted);
+    }
+    .repo-tile-skeleton { background: var(--bg-3); border-radius: 4px; height: 0.8em; }
+    .repo-tile-skeleton.shimmer { animation: shimmer 1.5s ease-in-out infinite; }
+    @keyframes shimmer { 0%,100%{opacity:0.35} 50%{opacity:0.65} }
+
+    @media (max-width: 768px) { .repo-tiles { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 420px) { .repo-tiles { grid-template-columns: 1fr 1fr; gap: 0.6rem; } }
     h1 {
       font-size: clamp(2.2rem, 5vw, 3.8rem);
       font-weight: 800; line-height: 1.15; letter-spacing: -1px;
@@ -402,18 +445,19 @@
 <section class="hero" id="top">
   <div class="hero-content">
 
-    <!-- Profile Photo -->
+    <!-- Profile Photo — centred -->
     <div class="hero-avatar-wrap">
       <img
         src="https://github.com/sreenathgopal.png"
         alt="Sreenath Gopalakrishnan"
         class="hero-avatar"
-        width="112" height="112"
-        onerror="this.src='https://avatars.githubusercontent.com/u/sreenathgopal?v=4'"
+        width="110" height="110"
+        onerror="this.src='https://ui-avatars.com/api/?name=Sreenath+G&background=0ea5e9&color=fff&size=110'"
       />
       <div class="hero-avatar-online" title="Open to opportunities"></div>
     </div>
 
+    <!-- Badge + headline -->
     <div class="hero-badge">Forward Deployment Engineer</div>
     <h1>14+ Years Architecting<br><span class="gradient-text">Enterprise Deployments</span></h1>
     <p class="hero-subtitle">
@@ -421,26 +465,67 @@
       Building, scaling, and securing production systems that deliver impact at enterprise scale.
     </p>
 
-    <!-- Today's #1 Ranked GitHub Repo — auto-updated daily by GitHub Actions -->
-    <a id="top-repo-widget" class="top-repo-widget" href="#" target="_blank" rel="noopener" title="Today's #1 ranked repo on GitHub">
-      <div class="top-repo-pulse"></div>
-      <div style="flex:1;min-width:0;">
-        <div class="top-repo-label">🏆 Today's #1 Ranked Repo</div>
-        <div class="top-repo-name top-repo-skeleton" id="tr-name">Loading…</div>
-        <div class="top-repo-desc top-repo-skeleton" id="tr-desc">Fetching latest data</div>
-      </div>
-      <div class="top-repo-meta">
-        <div class="top-repo-stars" id="tr-stars">⭐ —</div>
-        <div class="top-repo-date"  id="tr-date">Updated —</div>
-      </div>
-    </a>
+    <!-- Live "last updated" date — filled by JS from fetched_date in top_repo.json -->
+    <div class="hero-date-badge">
+      <span class="date-dot"></span>
+      <span id="hero-last-updated">Trending data loading…</span>
+    </div>
 
+    <!-- ── Top 4 GitHub Repos — auto-refreshed daily by GitHub Actions ── -->
+    <div class="trending-header">
+      <div class="trending-line"></div>
+      <div class="trending-label">🔥 Trending on GitHub today</div>
+      <div class="trending-line"></div>
+    </div>
+
+    <div class="repo-tiles" id="repo-tiles">
+      <!-- Skeleton tiles shown while JS fetches data -->
+      <a class="repo-tile" href="#" id="rt-0">
+        <div class="repo-tile-rank">🥇 #1</div>
+        <div class="repo-tile-name repo-tile-skeleton shimmer" style="width:80%;">&nbsp;</div>
+        <div class="repo-tile-desc repo-tile-skeleton shimmer" style="height:2.4em;">&nbsp;</div>
+        <div class="repo-tile-footer">
+          <span class="repo-tile-stars">⭐ —</span>
+          <span class="repo-tile-lang repo-tile-skeleton shimmer" style="width:40px;">&nbsp;</span>
+        </div>
+      </a>
+      <a class="repo-tile" href="#" id="rt-1">
+        <div class="repo-tile-rank">🥈 #2</div>
+        <div class="repo-tile-name repo-tile-skeleton shimmer" style="width:70%;">&nbsp;</div>
+        <div class="repo-tile-desc repo-tile-skeleton shimmer" style="height:2.4em;">&nbsp;</div>
+        <div class="repo-tile-footer">
+          <span class="repo-tile-stars">⭐ —</span>
+          <span class="repo-tile-lang repo-tile-skeleton shimmer" style="width:40px;">&nbsp;</span>
+        </div>
+      </a>
+      <a class="repo-tile" href="#" id="rt-2">
+        <div class="repo-tile-rank">🥉 #3</div>
+        <div class="repo-tile-name repo-tile-skeleton shimmer" style="width:75%;">&nbsp;</div>
+        <div class="repo-tile-desc repo-tile-skeleton shimmer" style="height:2.4em;">&nbsp;</div>
+        <div class="repo-tile-footer">
+          <span class="repo-tile-stars">⭐ —</span>
+          <span class="repo-tile-lang repo-tile-skeleton shimmer" style="width:40px;">&nbsp;</span>
+        </div>
+      </a>
+      <a class="repo-tile" href="#" id="rt-3">
+        <div class="repo-tile-rank">🏅 #4</div>
+        <div class="repo-tile-name repo-tile-skeleton shimmer" style="width:65%;">&nbsp;</div>
+        <div class="repo-tile-desc repo-tile-skeleton shimmer" style="height:2.4em;">&nbsp;</div>
+        <div class="repo-tile-footer">
+          <span class="repo-tile-stars">⭐ —</span>
+          <span class="repo-tile-lang repo-tile-skeleton shimmer" style="width:40px;">&nbsp;</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- CTA buttons -->
     <div class="hero-ctas">
       <a href="mailto:sreenathgopal@gmail.com" class="btn-primary">Get In Touch</a>
       <a href="https://linkedin.com/in/sreenathgopalakrishnan" target="_blank" rel="noopener" class="btn-outline">LinkedIn Profile</a>
       <a href="resources.html" class="btn-outline">FDE Resources →</a>
     </div>
 
+    <!-- Stats bar -->
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-value">14+</span>
@@ -815,59 +900,80 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // ── Today's #1 Ranked Repo Widget ──
-  // Reads _data/top_repo.json written daily by the GitHub Actions workflow.
-  // Falls back to a live GitHub API call if the file isn't cached yet.
-  (async function loadTopRepo() {
-    const widget = document.getElementById('top-repo-widget');
-    const nameEl  = document.getElementById('tr-name');
-    const descEl  = document.getElementById('tr-desc');
-    const starsEl = document.getElementById('tr-stars');
-    const dateEl  = document.getElementById('tr-date');
+  // ── Trending Top-4 Repos — reads _data/top_repo.json written by daily GitHub Action ──
+  (async function loadTrendingRepos() {
+    const RANKS  = ['🥇 #1','🥈 #2','🥉 #3','🏅 #4'];
+    const dateEl = document.getElementById('hero-last-updated');
 
-    function applyRepo(repo) {
-      nameEl.textContent  = repo.name || '—';
-      descEl.textContent  = repo.description || 'No description';
-      starsEl.textContent = repo.stars != null
-        ? '⭐ ' + Number(repo.stars).toLocaleString()
-        : '⭐ —';
-      dateEl.textContent  = repo.updated_at
-        ? 'Updated ' + new Date(repo.updated_at).toLocaleDateString('en-US', { month:'short', day:'numeric' })
-        : '';
-      widget.href = repo.url || '#';
-      nameEl.classList.remove('top-repo-skeleton');
-      descEl.classList.remove('top-repo-skeleton');
+    // Hardcoded fallback repos shown if both the JSON and the live API fail
+    const FALLBACK = [
+      { name:'trimstray/the-book-of-secret-knowledge', description:'Inspiring lists, manuals, cheatsheets, hacks, one-liners, cli/web tools and more', stars:223314, url:'https://github.com/trimstray/the-book-of-secret-knowledge', language:'Shell' },
+      { name:'louislam/uptime-kuma',   description:'A fancy self-hosted monitoring tool — modern Uptime Robot alternative', stars:87108, url:'https://github.com/louislam/uptime-kuma', language:'JavaScript' },
+      { name:'traefik/traefik',         description:'The Cloud Native Application Proxy — modern reverse proxy and load balancer', stars:63282, url:'https://github.com/traefik/traefik', language:'Go' },
+      { name:'fastlane/fastlane',       description:'Automate building, testing, and releasing mobile apps for iOS and Android', stars:41559, url:'https://github.com/fastlane/fastlane', language:'Ruby' },
+    ];
+
+    function renderTiles(repos, fetchedDate) {
+      // Update the date badge
+      if (fetchedDate) {
+        const d = new Date(fetchedDate);
+        const label = isNaN(d) ? fetchedDate
+          : d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+        dateEl.textContent = 'Trending data · Last updated ' + label;
+      } else {
+        dateEl.textContent = 'Trending data · Updated today';
+      }
+
+      // Fill each of the 4 tiles
+      repos.slice(0,4).forEach((repo, i) => {
+        const tile = document.getElementById('rt-' + i);
+        if (!tile) return;
+
+        // Short repo name (strip owner prefix for display)
+        const shortName = repo.name.includes('/') ? repo.name.split('/')[1] : repo.name;
+
+        tile.href = repo.url || '#';
+        tile.innerHTML = `
+          <div class="repo-tile-rank">${RANKS[i]}</div>
+          <div class="repo-tile-name" title="${repo.name}">${shortName}</div>
+          <div class="repo-tile-desc">${repo.description || 'No description available'}</div>
+          <div class="repo-tile-footer">
+            <span class="repo-tile-stars">⭐ ${Number(repo.stars).toLocaleString()}</span>
+            <span class="repo-tile-lang">${repo.language || '—'}</span>
+          </div>`;
+      });
     }
 
-    function fallback(err) {
-      console.warn('[top-repo] Using live API fallback:', err);
-      // Query GitHub search API directly — no auth needed for public search
-      fetch('https://api.github.com/search/repositories?q=devops+OR+kubernetes+OR+deployment&sort=stars&order=desc&per_page=1')
+    function tryLiveAPI() {
+      fetch('https://api.github.com/search/repositories?q=devops+OR+kubernetes+OR+deployment+OR+mlops&sort=stars&order=desc&per_page=4')
         .then(r => r.json())
         .then(data => {
-          const r = data.items && data.items[0];
-          if (r) applyRepo({ name: r.full_name, description: r.description, stars: r.stargazers_count, url: r.html_url, updated_at: r.updated_at });
-          else throw new Error('no items');
+          if (!data.items || !data.items.length) throw new Error('empty');
+          const repos = data.items.map(r => ({
+            name: r.full_name, description: r.description,
+            stars: r.stargazers_count, url: r.html_url, language: r.language
+          }));
+          renderTiles(repos, new Date().toISOString().slice(0,10));
         })
-        .catch(() => {
-          nameEl.textContent = 'the-book-of-secret-knowledge';
-          descEl.textContent = 'A collection of inspiring lists, manuals, hacks, cli/web tools';
-          starsEl.textContent = '⭐ 223,000+';
-          dateEl.textContent  = 'Updated today';
-          widget.href = 'https://github.com/trimstray/the-book-of-secret-knowledge';
-          nameEl.classList.remove('top-repo-skeleton');
-          descEl.classList.remove('top-repo-skeleton');
-        });
+        .catch(() => renderTiles(FALLBACK, new Date().toISOString().slice(0,10)));
     }
 
     try {
-      // Primary: read the pre-built JSON from the daily workflow
       const res = await fetch('_data/top_repo.json', { cache: 'no-cache' });
-      if (!res.ok) throw new Error('file not found');
+      if (!res.ok) throw new Error('not found');
       const data = await res.json();
-      applyRepo(data);
-    } catch (e) {
-      fallback(e);
+
+      // Support both new array format { repos:[...], fetched_date } and legacy single-object
+      const repos = Array.isArray(data.repos) ? data.repos
+                  : Array.isArray(data)        ? data
+                  : [data];                           // legacy single object
+      const fetchedDate = data.fetched_date || data.fetched_at || null;
+
+      if (repos.length === 0) throw new Error('empty');
+      renderTiles(repos, fetchedDate);
+    } catch(e) {
+      console.warn('[trending-repos] JSON not ready, trying live API:', e.message);
+      tryLiveAPI();
     }
   })();
 </script>

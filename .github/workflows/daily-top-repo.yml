@@ -1,23 +1,15 @@
 # .github/workflows/daily-top-repo.yml
 #
-# PURPOSE: Every day at 00:05 UTC, query the GitHub Search API for the single
-# most-starred repository matching FDE-relevant topics (devops, kubernetes,
-# deployment, terraform, etc.), write the result to _data/top_repo.json, and
-# commit it.  The portfolio's hero section reads this file via fetch() at page
-# load — so visitors always see today's #1 ranked repo automatically.
-#
-# PLACEMENT: sreenathgopal.github.io/.github/workflows/daily-top-repo.yml
-#
-# REQUIRED: No extra secrets needed — uses the built-in GITHUB_TOKEN.
+# Runs every day at 00:05 UTC.
+# Fetches the top 4 most-starred FDE-relevant repos from GitHub Search API,
+# writes them to _data/top_repo.json (with fetched_date), and commits.
+# The portfolio hero section reads this file and renders the 4-tile grid + date badge.
 
-name: Daily — Update #1 Ranked Repo
+name: Daily — Update Top 4 Ranked Repos
 
 on:
   schedule:
-    # 00:05 UTC daily — just after midnight so the date is always "today"
-    - cron: '5 0 * * *'
-
-  # Allow manual trigger from the Actions tab for testing
+    - cron: '5 0 * * *'   # 00:05 UTC every day
   workflow_dispatch:
     inputs:
       query:
@@ -26,140 +18,130 @@ on:
         default: ''
 
 permissions:
-  contents: write   # needed to commit _data/top_repo.json
+  contents: write
 
 jobs:
-  fetch-top-repo:
-    name: Fetch #1 Starred Repo & Commit
+  fetch-top-repos:
+    name: Fetch Top 4 Repos & Commit
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout the Pages repo ──────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── 2. Fetch #1 repo via GitHub Search API ───────────────────────────────
-      - name: Query GitHub Search API
-        id: fetch
+      - name: Query GitHub Search API — top 4 repos
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_QUERY: ${{ github.event.inputs.query }}
         run: |
-          # Use custom query if provided, otherwise use default FDE topic query
-          if [ -n "$CUSTOM_QUERY" ]; then
-            QUERY="$CUSTOM_QUERY"
-          else
-            QUERY="devops OR kubernetes OR deployment OR terraform OR ansible OR mlops"
-          fi
+          QUERY="${CUSTOM_QUERY:-devops OR kubernetes OR deployment OR terraform OR ansible OR mlops}"
+          echo "🔍 Query: $QUERY"
 
-          echo "🔍 Searching GitHub for: $QUERY"
-
-          RESPONSE=$(curl -sf \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/search/repositories?q=${QUERY// /+}+license:mit&sort=stars&order=desc&per_page=1")
-
-          if [ -z "$RESPONSE" ]; then
-            echo "::error::GitHub API returned empty response"
-            exit 1
-          fi
-
-          # Parse response with Python (always available on ubuntu-latest)
           python3 << 'PYEOF'
-          import json, os, sys
+          import json, os, subprocess
           from datetime import datetime, timezone
 
-          raw = os.popen('echo "$RESPONSE"').read()
+          query  = os.environ.get("CUSTOM_QUERY") or \
+                   "devops OR kubernetes OR deployment OR terraform OR ansible OR mlops"
+          token  = os.environ["GH_TOKEN"]
+          q_enc  = query.replace(" ", "+")
 
-          # Read env var directly
-          import subprocess
-          result = subprocess.run(
-            ['bash', '-c', 'echo "$RESPONSE"'],
-            capture_output=True, text=True,
-            env={**os.environ}
-          )
-          data = json.loads(result.stdout.strip())
+          result = subprocess.run([
+            "curl", "-sf",
+            "-H", f"Authorization: Bearer {token}",
+            "-H", "Accept: application/vnd.github+json",
+            "-H", "X-GitHub-Api-Version: 2022-11-28",
+            f"https://api.github.com/search/repositories?q={q_enc}+license:mit&sort=stars&order=desc&per_page=4"
+          ], capture_output=True, text=True)
 
+          data  = json.loads(result.stdout)
           items = data.get("items", [])
           if not items:
-              print("::error::No repositories found", file=sys.stderr)
-              sys.exit(1)
+              raise SystemExit("❌ No repositories returned from GitHub API")
 
-          repo = items[0]
-          today = datetime.now(timezone.utc)
+          now   = datetime.now(timezone.utc)
+          repos = []
+          for i, r in enumerate(items[:4]):
+              repos.append({
+                  "rank":        i + 1,
+                  "name":        r["full_name"],
+                  "description": r.get("description") or "No description available",
+                  "stars":       r["stargazers_count"],
+                  "url":         r["html_url"],
+                  "language":    r.get("language") or "Various",
+                  "topics":      r.get("topics", [])[:3],
+              })
+              print(f"  #{i+1}  {r['full_name']}  ⭐{r['stargazers_count']:,}")
 
           output = {
-              "name":        repo["full_name"],
-              "description": repo.get("description") or "No description available",
-              "stars":       repo["stargazers_count"],
-              "url":         repo["html_url"],
-              "language":    repo.get("language") or "Various",
-              "topics":      repo.get("topics", [])[:4],
-              "updated_at":  repo.get("updated_at", today.isoformat()),
-              "fetched_date": today.strftime("%Y-%m-%d"),
-              "fetched_at":   today.isoformat(),
+              "fetched_date": now.strftime("%Y-%m-%d"),
+              "fetched_at":   now.isoformat(),
+              "query":        query,
+              "repos":        repos,
           }
 
           os.makedirs("_data", exist_ok=True)
           with open("_data/top_repo.json", "w") as f:
               json.dump(output, f, indent=2)
 
-          print(f"✅ #1 repo: {output['name']} ({output['stars']:,} ⭐)")
-          print(f"   {output['description']}")
-          print(f"   {output['url']}")
+          print(f"\n✅ Written _data/top_repo.json  ({len(repos)} repos,  date={output['fetched_date']})")
           PYEOF
 
-      # ── 3. Show what we found (visible in Actions log) ───────────────────────
-      - name: Display result
+      - name: Show result
         run: |
-          echo "📦 _data/top_repo.json contents:"
+          echo "📦 _data/top_repo.json:"
           cat _data/top_repo.json
 
-      # ── 4. Commit & push if the file changed ─────────────────────────────────
-      - name: Commit updated top_repo.json
+      - name: Commit & push
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-
+          git config --global user.name  "github-actions[bot]"
           git add _data/top_repo.json
-
-          # Only commit if there's actually a change
           if git diff --staged --quiet; then
-            echo "ℹ️  No change in top repo data — skipping commit"
+            echo "ℹ️  No change — skipping commit"
           else
-            REPO_NAME=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(d['name'])")
-            STARS=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(f\"{d['stars']:,}\")")
-            git commit -m "data: today's #1 repo → ${REPO_NAME} (⭐${STARS}) [skip ci]"
+            DATE=$(python3 -c "import json; print(json.load(open('_data/top_repo.json'))['fetched_date'])")
+            TOP=$(python3  -c "import json; print(json.load(open('_data/top_repo.json'))['repos'][0]['name'])")
+            git commit -m "data(${DATE}): top repo → ${TOP} [skip ci]"
             git push
-            echo "✅ Committed and pushed"
+            echo "✅ Pushed"
           fi
 
-      # ── 5. Write a summary to the Actions UI ─────────────────────────────────
-      - name: Job summary
+      - name: Actions summary
         if: always()
         run: |
-          if [ -f "_data/top_repo.json" ]; then
-            NAME=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(d['name'])")
-            STARS=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(f\"{d['stars']:,}\")")
-            URL=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(d['url'])")
-            DESC=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(d['description'])")
-            DATE=$(python3 -c "import json; d=json.load(open('_data/top_repo.json')); print(d['fetched_date'])")
-
-            cat >> $GITHUB_STEP_SUMMARY << EOF
-          ## 🏆 Today's #1 Ranked GitHub Repo
-
-          | Field | Value |
-          |-------|-------|
-          | **Repository** | [$NAME]($URL) |
-          | **Stars** | ⭐ $STARS |
-          | **Description** | $DESC |
-          | **Fetched** | $DATE |
-
-          The hero section at [sreenathgopal.github.io](https://sreenathgopal.github.io) now shows this repo.
-          EOF
-          else
-            echo "⚠️ top_repo.json was not created — check the fetch step above" >> $GITHUB_STEP_SUMMARY
+          if [ ! -f "_data/top_repo.json" ]; then
+            echo "⚠️ top_repo.json was not created" >> $GITHUB_STEP_SUMMARY
+            exit 0
           fi
+          DATE=$(python3 -c "import json; print(json.load(open('_data/top_repo.json'))['fetched_date'])")
+          python3 << 'PYEOF'
+          import json
+          d = json.load(open("_data/top_repo.json"))
+          lines = [
+            f"## 🔥 Trending Repos — {d['fetched_date']}\n",
+            "| Rank | Repository | Stars | Language |",
+            "|------|-----------|-------|----------|",
+          ]
+          for r in d["repos"]:
+              lines.append(f"| #{r['rank']} | [{r['name']}]({r['url']}) | ⭐ {r['stars']:,} | {r['language']} |")
+          lines.append(f"\nHero section at [sreenathgopal.github.io](https://sreenathgopal.github.io) updated.")
+          print("\n".join(lines))
+          PYEOF
+          python3 -c "
+          import json
+          d = json.load(open('_data/top_repo.json'))
+          lines = [
+            '## 🔥 Trending Repos — ' + d['fetched_date'],
+            '',
+            '| Rank | Repository | Stars | Language |',
+            '|------|-----------|-------|----------|',
+          ]
+          for r in d['repos']:
+              lines.append(f\"| #{r['rank']} | [{r['name']}]({r['url']}) | ⭐ {r['stars']:,} | {r['language']} |\")
+          lines.append('')
+          lines.append('Hero section at [sreenathgopal.github.io](https://sreenathgopal.github.io) now shows these repos.')
+          print('\n'.join(lines))
+          " >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sreenath Gopalakrishnan | Forward Deployment Engineer</title>
+  <meta name="description" content="Forward Deployment Engineer with 14+ years architecting enterprise deployments. AWS Solutions Architect, Cloud-Native Infrastructure Specialist, DevOps Leader." />
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --primary-dim: rgba(14,165,233,0.15);
+      --accent-dim: rgba(16,185,129,0.15);
+
+      /* Dark theme (default) */
+      --bg: #0f172a;
+      --bg-2: #1e293b;
+      --bg-3: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(148,163,184,0.15);
+      --card-bg: rgba(30,41,59,0.8);
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-2: #ffffff;
+      --bg-3: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(15,23,42,0.1);
+      --card-bg: rgba(255,255,255,0.9);
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: rgba(15,23,42,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    [data-theme="light"] nav { background: rgba(248,250,252,0.9); }
+    .nav-brand { font-weight: 700; font-size: 1.1rem; color: var(--primary); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .theme-btn {
+      background: var(--bg-3); border: none; border-radius: 8px;
+      padding: 6px 12px; cursor: pointer; color: var(--text-muted);
+      font-size: 1rem; transition: all 0.2s;
+    }
+    .theme-btn:hover { color: var(--primary); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff; border: none; border-radius: 8px;
+      padding: 8px 18px; cursor: pointer; font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,165,233,0.12), transparent 70%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230ea5e9' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-content { max-width: 920px; text-align: center; position: relative; }
+
+    /* ── PROFILE PHOTO ── */
+    .hero-avatar-wrap {
+      position: relative; display: inline-block; margin-bottom: 1.75rem;
+    }
+    .hero-avatar {
+      width: 112px; height: 112px; border-radius: 50%;
+      border: 3px solid transparent;
+      background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                  linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 0 0 6px rgba(14,165,233,0.12), 0 8px 32px rgba(0,0,0,0.35);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hero-avatar:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 0 8px rgba(14,165,233,0.18), 0 12px 40px rgba(0,0,0,0.45);
+    }
+    .hero-avatar-online {
+      position: absolute; bottom: 6px; right: 6px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 8px rgba(16,185,129,0.6);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary-dim); border: 1px solid rgba(14,165,233,0.3);
+      color: var(--primary); border-radius: 100px;
+      padding: 6px 18px; font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '⚡'; font-size: 1rem; }
+
+    /* ── TODAY'S #1 REPO WIDGET ── */
+    .top-repo-widget {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card-bg);
+      border: 1px solid rgba(14,165,233,0.25);
+      border-radius: 16px; padding: 1rem 1.5rem;
+      margin: 0 auto 2.5rem; max-width: 620px;
+      backdrop-filter: blur(10px);
+      text-align: left; text-decoration: none; color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 2px 16px rgba(14,165,233,0.08);
+      position: relative; overflow: hidden;
+    }
+    .top-repo-widget::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .top-repo-widget:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(14,165,233,0.18); border-color: rgba(14,165,233,0.45); }
+    .top-repo-pulse {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+      100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+    }
+    .top-repo-label {
+      font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--accent); margin-bottom: 2px;
+    }
+    .top-repo-name {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 280px;
+    }
+    .top-repo-desc {
+      font-size: 0.78rem; color: var(--text-muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 280px;
+    }
+    .top-repo-meta { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .top-repo-stars { font-size: 0.9rem; font-weight: 800; color: #f59e0b; white-space: nowrap; }
+    .top-repo-date  { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+    .top-repo-skeleton { opacity: 0.4; animation: shimmer 1.5s ease-in-out infinite; }
+    @keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.15; letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-muted); max-width: 680px; margin: 0 auto 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff; border: none; border-radius: 10px;
+      padding: 14px 28px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(14,165,233,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(14,165,233,0.5); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 2px solid var(--border); border-radius: 10px;
+      padding: 12px 26px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem;
+      backdrop-filter: blur(10px); box-shadow: var(--shadow);
+    }
+    .stat { text-align: center; }
+    .stat-value {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 800; color: var(--primary); display: block; line-height: 1;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-divider { width: 1px; background: var(--border); margin: 0 auto; }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-tag {
+      display: inline-block; background: var(--primary-dim);
+      color: var(--primary); border-radius: 100px;
+      padding: 4px 14px; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.5px; }
+    .section-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 0.5rem; }
+
+    /* ── GRID CARDS ── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      backdrop-filter: blur(8px);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: rgba(14,165,233,0.3); }
+
+    .achievement-card { position: relative; overflow: hidden; }
+    .achievement-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .achievement-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--primary-dim); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1rem;
+    }
+    .achievement-metric {
+      font-size: 1.9rem; font-weight: 800; color: var(--primary);
+      line-height: 1; margin-bottom: 0.4rem;
+    }
+    .achievement-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .achievement-desc { font-size: 0.875rem; color: var(--text-muted); }
+
+    /* ── EXPERTISE ── */
+    .expertise-card { text-align: center; padding: 1.5rem 1rem; }
+    .expertise-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary-dim), var(--accent-dim));
+      border: 1px solid rgba(14,165,233,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin: 0 auto 1rem;
+    }
+    .expertise-name { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .expertise-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 0.5rem; }
+    .tag {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 100px;
+      background: var(--bg-3); color: var(--text-muted);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 40px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
+    }
+    .timeline-item {
+      display: flex; gap: 2rem; margin-bottom: 2.5rem; position: relative;
+    }
+    .timeline-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: 3px solid var(--bg);
+      flex-shrink: 0; margin-top: 0.25rem;
+      position: relative; z-index: 1;
+      box-shadow: 0 0 12px rgba(14,165,233,0.5);
+      margin-left: 31px;
+    }
+    .timeline-content { flex: 1; }
+    .timeline-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .timeline-title { font-size: 1.15rem; font-weight: 700; }
+    .timeline-company { color: var(--primary); font-weight: 600; }
+    .timeline-date { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-3); padding: 3px 10px; border-radius: 100px; white-space: nowrap; }
+    .timeline-location { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .timeline-highlights { list-style: none; }
+    .timeline-highlights li {
+      font-size: 0.9rem; color: var(--text-muted); padding: 4px 0 4px 1.2rem;
+      position: relative;
+    }
+    .timeline-highlights li::before {
+      content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem;
+    }
+
+    /* ── SKILLS ── */
+    .skill-category { margin-bottom: 0.5rem; }
+    .skill-name { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.75rem; }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      font-size: 0.8rem; padding: 5px 12px; border-radius: 8px;
+      background: var(--bg-3); color: var(--text); border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .chip:hover { border-color: var(--primary); color: var(--primary); }
+    .chip-primary { background: var(--primary-dim); border-color: rgba(14,165,233,0.3); color: var(--primary); }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-card {
+      display: flex; align-items: center; gap: 1.25rem;
+    }
+    .cert-badge {
+      width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: #fff;
+    }
+    .cert-info .cert-title { font-weight: 700; font-size: 0.95rem; }
+    .cert-info .cert-issuer { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+    .cert-info .cert-focus { font-size: 0.78rem; color: var(--accent); margin-top: 3px; font-weight: 600; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(14,165,233,0.12), rgba(6,182,212,0.08));
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 24px; padding: 3.5rem 2.5rem; text-align: center;
+    }
+    .cta-banner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 0.75rem; }
+    .cta-banner p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 2rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-2); border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center;
+      color: var(--text-muted); font-size: 0.875rem;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .grid-6 { grid-template-columns: repeat(3, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-divider { display: none; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .grid-6 { grid-template-columns: repeat(2, 1fr); }
+      .timeline::before { left: 9px; }
+      .timeline-dot { margin-left: 0; }
+      .timeline-item { gap: 1rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.25rem; }
+      .grid-6 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── SCROLL ANIMATION ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">SG · FDE</div>
+  <ul class="nav-links">
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#timeline">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+    <a href="mailto:sreenathgopal@gmail.com" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-content">
+
+    <!-- Profile Photo -->
+    <div class="hero-avatar-wrap">
+      <img
+        src="https://github.com/sreenathgopal.png"
+        alt="Sreenath Gopalakrishnan"
+        class="hero-avatar"
+        width="112" height="112"
+        onerror="this.src='https://avatars.githubusercontent.com/u/sreenathgopal?v=4'"
+      />
+      <div class="hero-avatar-online" title="Open to opportunities"></div>
+    </div>
+
+    <div class="hero-badge">Forward Deployment Engineer</div>
+    <h1>14+ Years Architecting<br><span class="gradient-text">Enterprise Deployments</span></h1>
+    <p class="hero-subtitle">
+      AWS Solutions Architect · Cloud-Native Infrastructure Specialist · DevOps Leader<br>
+      Building, scaling, and securing production systems that deliver impact at enterprise scale.
+    </p>
+
+    <!-- Today's #1 Ranked GitHub Repo — auto-updated daily by GitHub Actions -->
+    <a id="top-repo-widget" class="top-repo-widget" href="#" target="_blank" rel="noopener" title="Today's #1 ranked repo on GitHub">
+      <div class="top-repo-pulse"></div>
+      <div style="flex:1;min-width:0;">
+        <div class="top-repo-label">🏆 Today's #1 Ranked Repo</div>
+        <div class="top-repo-name top-repo-skeleton" id="tr-name">Loading…</div>
+        <div class="top-repo-desc top-repo-skeleton" id="tr-desc">Fetching latest data</div>
+      </div>
+      <div class="top-repo-meta">
+        <div class="top-repo-stars" id="tr-stars">⭐ —</div>
+        <div class="top-repo-date"  id="tr-date">Updated —</div>
+      </div>
+    </a>
+
+    <div class="hero-ctas">
+      <a href="mailto:sreenathgopal@gmail.com" class="btn-primary">Get In Touch</a>
+      <a href="https://linkedin.com/in/sreenathgopalakrishnan" target="_blank" rel="noopener" class="btn-outline">LinkedIn Profile</a>
+      <a href="resources.html" class="btn-outline">FDE Resources →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">14+</span>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <span class="stat-value">50%</span>
+        <div class="stat-label">Faster Delivery</div>
+      </div>
+      <div class="stat">
+        <span class="stat-value">35%</span>
+        <div class="stat-label">Support Reduction</div>
+      </div>
+      <div class="stat">
+        <span class="stat-value">3+</span>
+        <div class="stat-label">Compliance Standards</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT & ACHIEVEMENTS -->
+<section id="impact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Measurable Impact</div>
+      <h2 class="section-title">Achievements That Move the Needle</h2>
+      <p class="section-subtitle">Quantifiable results across enterprise deployments, FinTech, and Healthcare AI</p>
+    </div>
+    <div class="grid-3">
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">🚀</div>
+        <div class="achievement-metric">50%</div>
+        <div class="achievement-title">Delivery Acceleration</div>
+        <div class="achievement-desc">Automated CI/CD pipelines and zero-downtime releases eliminated deployment bottlenecks across global FinTech infrastructure.</div>
+      </div>
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">🤖</div>
+        <div class="achievement-metric">35%</div>
+        <div class="achievement-title">Support Efficiency Gain</div>
+        <div class="achievement-desc">AI-powered NLP chatbot on SageMaker dramatically reduced enterprise support load — fewer tickets, faster resolutions.</div>
+      </div>
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">🔒</div>
+        <div class="achievement-metric">100%</div>
+        <div class="achievement-title">Compliance Delivery</div>
+        <div class="achievement-desc">Flawless compliance across PCI DSS, HIPAA, and FDA 21 CFR standards — zero audit failures across all regulated deployments.</div>
+      </div>
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">☁️</div>
+        <div class="achievement-metric">0</div>
+        <div class="achievement-title">Disruption Multi-Cloud Migrations</div>
+        <div class="achievement-desc">Seamless AWS-to-private-cloud and hybrid-cloud transitions for mission-critical financial systems, zero downtime.</div>
+      </div>
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">⚙️</div>
+        <div class="achievement-metric">K8s</div>
+        <div class="achievement-title">Microservices Architecture</div>
+        <div class="achievement-desc">Kubernetes orchestration, service mesh, and Helm-based releases — containerized workloads at production scale.</div>
+      </div>
+      <div class="card achievement-card fade-in">
+        <div class="achievement-icon">🧠</div>
+        <div class="achievement-metric">MLOps</div>
+        <div class="achievement-title">Production-Ready ML Pipelines</div>
+        <div class="achievement-desc">SageMaker Model Registry with automated versioning, A/B testing, and monitoring — ML in production with governance built in.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE EXPERTISE -->
+<section id="expertise" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Core Expertise</div>
+      <h2 class="section-title">What I Bring to the Table</h2>
+      <p class="section-subtitle">Six domains where I deliver enterprise-grade depth and measurable outcomes</p>
+    </div>
+    <div class="grid-3 fade-in">
+      <div class="card expertise-card">
+        <div class="expertise-icon">🏗️</div>
+        <div class="expertise-name">Enterprise Deployment</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">Zero-downtime strategies, blue-green, canary, and rolling releases for Fortune 500 scale</p>
+        <div class="expertise-tags">
+          <span class="tag">Blue-Green</span><span class="tag">Canary</span><span class="tag">Zero-Downtime</span>
+        </div>
+      </div>
+      <div class="card expertise-card">
+        <div class="expertise-icon">🔄</div>
+        <div class="expertise-name">CI/CD &amp; DevOps</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">End-to-end pipeline design with GitHub Actions, Jenkins, GitLab CI, and automated quality gates</p>
+        <div class="expertise-tags">
+          <span class="tag">GitHub Actions</span><span class="tag">Jenkins</span><span class="tag">GitOps</span>
+        </div>
+      </div>
+      <div class="card expertise-card">
+        <div class="expertise-icon">📐</div>
+        <div class="expertise-name">Infrastructure as Code</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">Terraform, CloudFormation, Ansible — infrastructure versioned, tested, and deployed like software</p>
+        <div class="expertise-tags">
+          <span class="tag">Terraform</span><span class="tag">Ansible</span><span class="tag">Helm</span>
+        </div>
+      </div>
+      <div class="card expertise-card">
+        <div class="expertise-icon">☁️</div>
+        <div class="expertise-name">Cloud Platforms</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">AWS-native architecture with multi-cloud orchestration across Azure and GCP</p>
+        <div class="expertise-tags">
+          <span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">GCP</span>
+        </div>
+      </div>
+      <div class="card expertise-card">
+        <div class="expertise-icon">🤖</div>
+        <div class="expertise-name">MLOps &amp; AI Deployment</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">SageMaker, MLflow, Kubeflow — ML models shipped to production with full governance and monitoring</p>
+        <div class="expertise-tags">
+          <span class="tag">SageMaker</span><span class="tag">MLflow</span><span class="tag">DVC</span>
+        </div>
+      </div>
+      <div class="card expertise-card">
+        <div class="expertise-icon">🛡️</div>
+        <div class="expertise-name">Compliance &amp; Security</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);text-align:center;">PCI DSS, HIPAA, FDA 21 CFR, SOC 2 — compliance-first architecture for regulated industries</p>
+        <div class="expertise-tags">
+          <span class="tag">PCI DSS</span><span class="tag">HIPAA</span><span class="tag">FDA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFESSIONAL TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Professional Journey</div>
+      <h2 class="section-title">14+ Years of Enterprise Impact</h2>
+      <p class="section-subtitle">From aerospace firmware to cloud-native MLOps — a career built on delivery at scale</p>
+    </div>
+    <div class="timeline fade-in">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-title">Solutions Architect</div>
+              <div class="timeline-company">TCS Healthcare AI</div>
+            </div>
+            <span class="timeline-date">Sep 2022 – Present</span>
+          </div>
+          <div class="timeline-location">📍 Kochi, India</div>
+          <ul class="timeline-highlights">
+            <li><strong>AI Healthcare Deployment:</strong> NLP chatbot on AWS SageMaker delivering 35% reduction in enterprise support tickets</li>
+            <li><strong>MLOps Pipeline:</strong> SageMaker Model Registry with automated versioning, shadow deployments, and A/B testing</li>
+            <li><strong>Compliance Architecture:</strong> HIPAA & FDA-compliant AI governance — audit-ready from day one</li>
+            <li><strong>Cross-Team Leadership:</strong> Aligned engineering, data science, and compliance stakeholders on production ML delivery</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-title">AWS DevOps Engineer</div>
+              <div class="timeline-company">Global PayEx (FinTech)</div>
+            </div>
+            <span class="timeline-date">Jul 2020 – Sep 2022</span>
+          </div>
+          <div class="timeline-location">📍 Mumbai, India</div>
+          <ul class="timeline-highlights">
+            <li><strong>CI/CD Excellence:</strong> 50% faster delivery — automated pipelines with zero-downtime blue-green deployments</li>
+            <li><strong>Multi-Cloud Migration:</strong> Seamless AWS-to-private-cloud transition for mission-critical payment infrastructure</li>
+            <li><strong>PCI DSS Compliance:</strong> Designed and implemented PCI DSS framework across cloud-native payment systems</li>
+            <li><strong>Kubernetes Platform:</strong> Containerized microservices on EKS with Istio service mesh and significant cost reduction</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-title">Sr. Firmware Engineer → Tech Lead</div>
+              <div class="timeline-company">Honeywell Connected Enterprise</div>
+            </div>
+            <span class="timeline-date">Jun 2011 – Jun 2020 · 9 Years</span>
+          </div>
+          <div class="timeline-location">📍 Bangalore, India</div>
+          <ul class="timeline-highlights">
+            <li><strong>Satellite Systems:</strong> SKYCONNECT MMU/Tracker & UAV communications — mission-critical aerospace deployment</li>
+            <li><strong>Kernel Engineering:</strong> Linux drivers, bootloaders, and aerospace-grade communication protocols</li>
+            <li><strong>Global Manufacturing:</strong> JTAG-BSCAN testing strategies deployed at Honeywell facilities worldwide</li>
+            <li><strong>Tech Leadership:</strong> Mentored teams, established code review protocols, drove engineering quality standards</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL SKILLS -->
+<section id="skills" style="background: var(--bg-2);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Technical Skills</div>
+      <h2 class="section-title">Full-Stack Deployment Engineering</h2>
+      <p class="section-subtitle">Deep proficiency across the modern deployment and infrastructure stack</p>
+    </div>
+    <div class="grid-2 fade-in">
+      <div class="card">
+        <div class="skill-name">☁️ Cloud Platforms</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">AWS</span>
+          <span class="chip">SageMaker</span><span class="chip">Lambda</span><span class="chip">EC2</span>
+          <span class="chip">RDS</span><span class="chip">S3</span><span class="chip">VPC</span>
+          <span class="chip">IAM</span><span class="chip">EKS</span>
+          <span class="chip">Azure</span><span class="chip">GCP</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="skill-name">⚙️ DevOps &amp; Infrastructure</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">Kubernetes</span>
+          <span class="chip">Docker</span><span class="chip">Terraform</span><span class="chip">CloudFormation</span>
+          <span class="chip">Ansible</span><span class="chip">Helm</span><span class="chip">GitOps</span>
+          <span class="chip">Istio</span><span class="chip">ArgoCD</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="skill-name">🤖 ML &amp; AI Deployment</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">SageMaker</span>
+          <span class="chip">MLflow</span><span class="chip">Kubeflow</span><span class="chip">DVC</span>
+          <span class="chip">Model Versioning</span><span class="chip">A/B Testing</span>
+          <span class="chip">Shadow Deploy</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="skill-name">💻 Programming Languages</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">Python</span>
+          <span class="chip">Go</span><span class="chip">C++</span>
+          <span class="chip">Bash/Shell</span><span class="chip">VHDL</span>
+          <span class="chip">YAML</span><span class="chip">HCL</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="skill-name">🔒 Compliance &amp; Governance</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">PCI DSS</span>
+          <span class="chip">HIPAA</span><span class="chip">FDA 21 CFR</span>
+          <span class="chip">SOC 2</span><span class="chip">ISO 27001</span>
+          <span class="chip">TOGAF</span><span class="chip">SABSA</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="skill-name">🏭 Domain Expertise</div>
+        <div class="skill-chips">
+          <span class="chip chip-primary">FinTech</span>
+          <span class="chip">Healthcare AI</span><span class="chip">Aerospace</span>
+          <span class="chip">Enterprise Transformation</span>
+          <span class="chip">MLOps</span><span class="chip">DevSecOps</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Certifications</div>
+      <h2 class="section-title">Validated Expertise</h2>
+      <p class="section-subtitle">Industry-recognized credentials backing 14+ years of hands-on delivery</p>
+    </div>
+    <div class="grid-3 fade-in">
+      <div class="card cert-card">
+        <div class="cert-badge">☁️</div>
+        <div class="cert-info">
+          <div class="cert-title">AWS Certified Solutions Architect</div>
+          <div class="cert-issuer">Amazon Web Services</div>
+          <div class="cert-focus">Cloud Architecture</div>
+        </div>
+      </div>
+      <div class="card cert-card">
+        <div class="cert-badge">📊</div>
+        <div class="cert-info">
+          <div class="cert-title">Six Sigma Green Belt</div>
+          <div class="cert-issuer">Process Excellence Body</div>
+          <div class="cert-focus">Process Optimization</div>
+        </div>
+      </div>
+      <div class="card cert-card">
+        <div class="cert-badge">⚡</div>
+        <div class="cert-info">
+          <div class="cert-title">Cursort Certified C++</div>
+          <div class="cert-issuer">Advanced Programming</div>
+          <div class="cert-focus">Systems Programming</div>
+        </div>
+      </div>
+      <div class="card cert-card">
+        <div class="cert-badge">🐍</div>
+        <div class="cert-info">
+          <div class="cert-title">Cursort Certified Python</div>
+          <div class="cert-issuer">Advanced Programming</div>
+          <div class="cert-focus">Application Development</div>
+        </div>
+      </div>
+      <div class="card cert-card">
+        <div class="cert-badge">🏛️</div>
+        <div class="cert-info">
+          <div class="cert-title">SABSA / TOGAF</div>
+          <div class="cert-issuer">Enterprise Architecture Body</div>
+          <div class="cert-focus">Security &amp; Enterprise Architecture</div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;text-align:center;border-style:dashed;">
+        <div style="font-size:2rem;">🎯</div>
+        <div style="font-size:0.875rem;font-weight:600;">More in Progress</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">CKA · HashiCorp Terraform · AWS DevOps Pro</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta-banner fade-in">
+      <h2>Ready to Deploy at <span class="gradient-text">Enterprise Scale?</span></h2>
+      <p>Whether you're migrating to cloud, scaling MLOps pipelines, or need compliance-first deployment architecture — let's build something reliable together.</p>
+      <div class="cta-row">
+        <a href="mailto:sreenathgopal@gmail.com" class="btn-primary">Start a Conversation</a>
+        <a href="https://linkedin.com/in/sreenathgopalakrishnan" target="_blank" rel="noopener" class="btn-outline">Connect on LinkedIn</a>
+        <a href="https://github.com/sreenathgopal" target="_blank" rel="noopener" class="btn-outline">View GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong>Sreenath Gopalakrishnan</strong> · Forward Deployment Engineer ·
+    <a href="mailto:sreenathgopal@gmail.com">sreenathgopal@gmail.com</a> ·
+    <a href="https://linkedin.com/in/sreenathgopalakrishnan" target="_blank" rel="noopener">LinkedIn</a> ·
+    <a href="https://github.com/sreenathgopal" target="_blank" rel="noopener">GitHub</a>
+  </p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;">© 2026 · Built with GitHub Pages · Hosted at sreenathgopal.github.io</p>
+</footer>
+
+<script>
+  // ── Theme toggle ──
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    document.querySelector('.theme-btn').textContent = current === 'dark' ? '🌙' : '☀️';
+  }
+
+  // ── Scroll-triggered fade-in ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── Today's #1 Ranked Repo Widget ──
+  // Reads _data/top_repo.json written daily by the GitHub Actions workflow.
+  // Falls back to a live GitHub API call if the file isn't cached yet.
+  (async function loadTopRepo() {
+    const widget = document.getElementById('top-repo-widget');
+    const nameEl  = document.getElementById('tr-name');
+    const descEl  = document.getElementById('tr-desc');
+    const starsEl = document.getElementById('tr-stars');
+    const dateEl  = document.getElementById('tr-date');
+
+    function applyRepo(repo) {
+      nameEl.textContent  = repo.name || '—';
+      descEl.textContent  = repo.description || 'No description';
+      starsEl.textContent = repo.stars != null
+        ? '⭐ ' + Number(repo.stars).toLocaleString()
+        : '⭐ —';
+      dateEl.textContent  = repo.updated_at
+        ? 'Updated ' + new Date(repo.updated_at).toLocaleDateString('en-US', { month:'short', day:'numeric' })
+        : '';
+      widget.href = repo.url || '#';
+      nameEl.classList.remove('top-repo-skeleton');
+      descEl.classList.remove('top-repo-skeleton');
+    }
+
+    function fallback(err) {
+      console.warn('[top-repo] Using live API fallback:', err);
+      // Query GitHub search API directly — no auth needed for public search
+      fetch('https://api.github.com/search/repositories?q=devops+OR+kubernetes+OR+deployment&sort=stars&order=desc&per_page=1')
+        .then(r => r.json())
+        .then(data => {
+          const r = data.items && data.items[0];
+          if (r) applyRepo({ name: r.full_name, description: r.description, stars: r.stargazers_count, url: r.html_url, updated_at: r.updated_at });
+          else throw new Error('no items');
+        })
+        .catch(() => {
+          nameEl.textContent = 'the-book-of-secret-knowledge';
+          descEl.textContent = 'A collection of inspiring lists, manuals, hacks, cli/web tools';
+          starsEl.textContent = '⭐ 223,000+';
+          dateEl.textContent  = 'Updated today';
+          widget.href = 'https://github.com/trimstray/the-book-of-secret-knowledge';
+          nameEl.classList.remove('top-repo-skeleton');
+          descEl.classList.remove('top-repo-skeleton');
+        });
+    }
+
+    try {
+      // Primary: read the pre-built JSON from the daily workflow
+      const res = await fetch('_data/top_repo.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error('file not found');
+      const data = await res.json();
+      applyRepo(data);
+    } catch (e) {
+      fallback(e);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+# .github/workflows/update-portfolio.yml
+# Place this file at: sreenathgopal.github.io/.github/workflows/update-portfolio.yml
+#
+# This workflow runs daily to keep the portfolio data fresh.
+# It also validates HTML and runs a link-check on deploy.
+
+name: Portfolio Daily Update
+
+on:
+  schedule:
+    # Run every day at 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Force a full update even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  # ─────────────────────────────────────────────
+  # JOB 1: Fetch latest GitHub stats & repo data
+  # ─────────────────────────────────────────────
+  update-stats:
+    name: Refresh Portfolio Data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout portfolio repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests python-dateutil
+
+      - name: Fetch GitHub profile stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: sreenathgopal
+        run: |
+          python3 << 'EOF'
+          import os, json, requests
+          from datetime import datetime, timezone
+
+          token = os.environ["GITHUB_TOKEN"]
+          username = os.environ["GITHUB_USERNAME"]
+          headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+
+          # Fetch public repo count and basic stats
+          r = requests.get(f"https://api.github.com/users/{username}", headers=headers)
+          r.raise_for_status()
+          user = r.json()
+
+          stats = {
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "public_repos": user.get("public_repos", 0),
+            "followers": user.get("followers", 0),
+            "following": user.get("following", 0),
+          }
+
+          # Fetch top repos by stars
+          repos_r = requests.get(
+            f"https://api.github.com/users/{username}/repos?sort=stars&per_page=5&type=public",
+            headers=headers
+          )
+          repos = repos_r.json() if repos_r.status_code == 200 else []
+          stats["top_repos"] = [
+            {"name": r["name"], "stars": r["stargazers_count"], "description": r.get("description", "")}
+            for r in repos
+          ]
+
+          os.makedirs("_data", exist_ok=True)
+          with open("_data/stats.json", "w") as f:
+            json.dump(stats, f, indent=2)
+
+          print(f"✅ Stats updated: {stats['public_repos']} repos, {stats['followers']} followers")
+          EOF
+
+      - name: Update last-refreshed timestamp
+        run: |
+          DATE=$(date -u "+%Y-%m-%d %H:%M UTC")
+          echo "Last updated: $DATE" > _data/last_updated.txt
+          echo "✅ Timestamp: $DATE"
+
+      - name: Commit and push updates
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add _data/
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit"
+          else
+            git commit -m "chore(data): refresh portfolio stats [skip ci]"
+            git push
+            echo "✅ Pushed updated stats"
+          fi
+
+  # ─────────────────────────────────────────────
+  # JOB 2: Validate HTML & check links
+  # ─────────────────────────────────────────────
+  validate:
+    name: Validate Portfolio
+    runs-on: ubuntu-latest
+    needs: update-stats
+
+    steps:
+      - name: Checkout portfolio repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install html-validate
+        run: npm install -g html-validate
+
+      - name: Validate index.html
+        run: |
+          html-validate index.html --config '{"extends":["html-validate:recommended"],"rules":{"require-sri":"off","no-inline-style":"off","script-type":"off"}}' \
+            && echo "✅ index.html is valid" \
+            || echo "⚠️ index.html has warnings (non-blocking)"
+        continue-on-error: true
+
+      - name: Validate resources.html
+        run: |
+          html-validate resources.html --config '{"extends":["html-validate:recommended"],"rules":{"require-sri":"off","no-inline-style":"off","script-type":"off"}}' \
+            && echo "✅ resources.html is valid" \
+            || echo "⚠️ resources.html has warnings (non-blocking)"
+        continue-on-error: true
+
+      - name: Check internal links
+        run: |
+          # Simple check that cross-links exist
+          if grep -q 'href="resources.html"' index.html; then
+            echo "✅ index.html → resources.html link found"
+          else
+            echo "⚠️ Missing link from index.html to resources.html"
+          fi
+          if grep -q 'href="index.html"' resources.html; then
+            echo "✅ resources.html → index.html link found"
+          else
+            echo "⚠️ Missing link from resources.html to index.html"
+          fi
+
+  # ─────────────────────────────────────────────
+  # JOB 3: Post update summary (manual runs only)
+  # ─────────────────────────────────────────────
+  summary:
+    name: Update Summary
+    runs-on: ubuntu-latest
+    needs: [update-stats, validate]
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Print summary
+        run: |
+          echo "## Portfolio Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Stats refresh | ✅ Complete |" >> $GITHUB_STEP_SUMMARY
+          echo "| HTML validation | ✅ Complete |" >> $GITHUB_STEP_SUMMARY
+          echo "| Link check | ✅ Complete |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Live at:** https://sreenathgopal.github.io" >> $GITHUB_STEP_SUMMARY

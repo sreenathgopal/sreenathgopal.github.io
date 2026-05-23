@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FDE Resources Hub | Sreenath Gopalakrishnan</title>
+  <meta name="description" content="Curated Forward Deployment Engineer resources — top GitHub repositories, production-ready Actions workflows, and search queries." />
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --secondary: #06b6d4;
+      --accent: #10b981;
+      --primary-dim: rgba(14,165,233,0.15);
+      --accent-dim: rgba(16,185,129,0.15);
+      --bg: #0f172a; --bg-2: #1e293b; --bg-3: #334155;
+      --text: #f1f5f9; --text-muted: #94a3b8;
+      --border: rgba(148,163,184,0.15);
+      --card-bg: rgba(30,41,59,0.85);
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-2: #ffffff; --bg-3: #e2e8f0;
+      --text: #0f172a; --text-muted: #64748b;
+      --border: rgba(15,23,42,0.1);
+      --card-bg: rgba(255,255,255,0.95);
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+      background: rgba(15,23,42,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="light"] nav { background: rgba(248,250,252,0.93); }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--primary); }
+    .nav-links { display: flex; gap: 1.25rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .theme-btn { background: var(--bg-3); border: none; border-radius: 8px; padding: 5px 10px; cursor: pointer; color: var(--text-muted); font-size: 1rem; }
+    .nav-back { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--primary); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 4rem 2rem 2.5rem;
+      text-align: center;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(14,165,233,0.1), transparent 70%);
+    }
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-dim); border: 1px solid rgba(14,165,233,0.3);
+      color: var(--primary); border-radius: 100px;
+      padding: 5px 16px; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .page-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.75rem; }
+    .gradient-text { background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+    /* TABS */
+    .tabs-wrapper { padding: 0 2rem; max-width: 1100px; margin: 0 auto; }
+    .tab-nav {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      border-bottom: 2px solid var(--border); margin-bottom: 2.5rem;
+      padding-bottom: 0;
+    }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
+      padding: 0.75rem 1.25rem; border-radius: 8px 8px 0 0;
+      transition: color 0.2s, background 0.2s;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+    }
+    .tab-btn:hover { color: var(--text); background: var(--bg-2); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--bg-2); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* CARDS */
+    .card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: rgba(14,165,233,0.25); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+    /* REPO CARDS */
+    .repo-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; gap: 0.5rem; }
+    .repo-rank {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; font-size: 0.72rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .repo-name { font-weight: 700; font-size: 1rem; }
+    .repo-stars {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.82rem; font-weight: 700; color: #f59e0b;
+      background: rgba(245,158,11,0.12); padding: 3px 8px; border-radius: 100px;
+      white-space: nowrap;
+    }
+    .repo-category {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 2px 8px; border-radius: 100px;
+      background: var(--primary-dim); color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .repo-desc { font-size: 0.87rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .repo-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--primary); text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      transition: gap 0.2s;
+    }
+    .repo-link:hover { gap: 8px; text-decoration: underline; }
+
+    /* WORKFLOW CARDS */
+    .workflow-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .workflow-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--primary-dim); display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .workflow-title { font-weight: 700; font-size: 1rem; }
+    .workflow-purpose { font-size: 0.83rem; color: var(--text-muted); }
+    .workflow-section { margin-top: 1rem; }
+    .workflow-section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .workflow-list { list-style: none; }
+    .workflow-list li {
+      font-size: 0.85rem; color: var(--text-muted); padding: 3px 0 3px 1rem;
+      position: relative;
+    }
+    .workflow-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+    .trigger-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
+    .trigger-badge {
+      font-size: 0.75rem; padding: 3px 10px; border-radius: 100px;
+      background: var(--bg-3); color: var(--text-muted); border: 1px solid var(--border);
+    }
+    .yaml-block {
+      background: #0d1117; border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem; margin-top: 1rem;
+      font-family: 'Courier New', monospace; font-size: 0.78rem; color: #e6edf3;
+      overflow-x: auto; max-height: 280px; overflow-y: auto;
+    }
+    .yaml-block .kw { color: #79c0ff; }
+    .yaml-block .str { color: #a5d6ff; }
+    .yaml-block .cm { color: #8b949e; font-style: italic; }
+    .yaml-block .val { color: #7ee787; }
+
+    /* QUERY CARDS */
+    .query-card { position: relative; }
+    .query-number {
+      font-size: 0.72rem; font-weight: 800; color: var(--primary);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
+    }
+    .query-string {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem; font-weight: 700;
+      background: var(--bg-3); padding: 8px 12px; border-radius: 8px;
+      margin-bottom: 0.5rem; color: var(--secondary);
+      word-break: break-all;
+    }
+    .query-desc { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .copy-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--primary-dim); border: 1px solid rgba(14,165,233,0.3);
+      color: var(--primary); border-radius: 8px; padding: 5px 12px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .copy-btn:hover { background: var(--primary); color: #fff; }
+    .copy-btn.copied { background: var(--accent-dim); border-color: rgba(16,185,129,0.3); color: var(--accent); }
+
+    /* RANKINGS */
+    .ranking-item {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding: 1.1rem 1.25rem; border-radius: 14px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      transition: transform 0.2s, border-color 0.2s;
+      margin-bottom: 0.75rem;
+    }
+    .ranking-item:hover { transform: translateX(4px); border-color: rgba(14,165,233,0.3); }
+    .rank-position {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; color: #fff;
+    }
+    .rank-1 { background: linear-gradient(135deg, #f59e0b, #f97316); box-shadow: 0 2px 12px rgba(245,158,11,0.4); }
+    .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); box-shadow: 0 2px 12px rgba(148,163,184,0.3); }
+    .rank-3 { background: linear-gradient(135deg, #cd7c2f, #a16207); box-shadow: 0 2px 12px rgba(180,83,9,0.3); }
+    .rank-4, .rank-5 { background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 2px 12px rgba(14,165,233,0.3); }
+    .rank-info { flex: 1; min-width: 0; }
+    .rank-name { font-weight: 700; font-size: 1rem; }
+    .rank-category { font-size: 0.82rem; color: var(--text-muted); }
+    .rank-stars-big {
+      font-size: 1.1rem; font-weight: 800; color: #f59e0b;
+      display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+    }
+
+    /* USAGE NOTES */
+    .notes-box {
+      background: var(--accent-dim); border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px; padding: 1.25rem; margin-top: 2rem;
+    }
+    .notes-box h4 { font-size: 0.9rem; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem; }
+    .notes-box ul { list-style: none; }
+    .notes-box li { font-size: 0.875rem; color: var(--text-muted); padding: 3px 0 3px 1.2rem; position: relative; }
+    .notes-box li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+    footer {
+      background: var(--bg-2); border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.875rem;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .tabs-wrapper { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">SG · FDE Resources</div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Resources Hub</a></li>
+    <li><a href="index.html">Portfolio</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-back">← Portfolio</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀️</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-badge">⚡ FDE Resources Hub</div>
+  <h1 class="page-title">Forward Deployment<br><span class="gradient-text">Engineer Resources</span></h1>
+  <p class="page-subtitle">Curated repositories, production-ready GitHub Actions workflows, and search queries — everything a deployment engineer needs in one place.</p>
+</div>
+
+<div class="tabs-wrapper" style="padding-top:2rem;">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('repos', this)">📦 Top Repositories</button>
+    <button class="tab-btn" onclick="switchTab('actions', this)">⚡ GitHub Actions</button>
+    <button class="tab-btn" onclick="switchTab('queries', this)">🔍 Search Queries</button>
+    <button class="tab-btn" onclick="switchTab('rankings', this)">🏆 Star Rankings</button>
+  </div>
+
+  <!-- TAB 1: TOP REPOSITORIES -->
+  <div id="tab-repos" class="tab-panel active">
+    <div class="grid-2">
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">1</div>
+            <div class="repo-name">fastlane</div>
+          </div>
+          <div class="repo-stars">⭐ 41,559</div>
+        </div>
+        <div class="repo-category">Deployment</div>
+        <div class="repo-desc">The easiest way to automate building, testing, and releasing mobile apps for iOS and Android.</div>
+        <a href="https://github.com/fastlane/fastlane" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">2</div>
+            <div class="repo-name">traefik</div>
+          </div>
+          <div class="repo-stars">⭐ 63,282</div>
+        </div>
+        <div class="repo-category">Kubernetes</div>
+        <div class="repo-desc">The Cloud Native Application Proxy — modern reverse proxy and load balancer for microservices.</div>
+        <a href="https://github.com/traefik/traefik" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">3</div>
+            <div class="repo-name">yq</div>
+          </div>
+          <div class="repo-stars">⭐ 15,430</div>
+        </div>
+        <div class="repo-category">Terraform / IaC</div>
+        <div class="repo-desc">A lightweight and portable command-line YAML, JSON, and XML processor.</div>
+        <a href="https://github.com/mikefarah/yq" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">4</div>
+            <div class="repo-name">semaphore</div>
+          </div>
+          <div class="repo-stars">⭐ 13,642</div>
+        </div>
+        <div class="repo-category">Ansible</div>
+        <div class="repo-desc">Modern UI for Ansible — visual automation framework making Ansible accessible to entire teams.</div>
+        <a href="https://github.com/ansible-semaphore/semaphore" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">5</div>
+            <div class="repo-name">uptime-kuma</div>
+          </div>
+          <div class="repo-stars">⭐ 87,108</div>
+        </div>
+        <div class="repo-category">Monitoring</div>
+        <div class="repo-desc">A fancy self-hosted monitoring tool with a beautiful UI — the modern alternative to Uptime Robot.</div>
+        <a href="https://github.com/louislam/uptime-kuma" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">6</div>
+            <div class="repo-name">the-book-of-secret-knowledge</div>
+          </div>
+          <div class="repo-stars">⭐ 223,314</div>
+        </div>
+        <div class="repo-category">DevOps</div>
+        <div class="repo-desc">A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools.</div>
+        <a href="https://github.com/trimstray/the-book-of-secret-knowledge" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">7</div>
+            <div class="repo-name">jenkins</div>
+          </div>
+          <div class="repo-stars">⭐ 25,285</div>
+        </div>
+        <div class="repo-category">Jenkins / CI</div>
+        <div class="repo-desc">The leading open source automation server — build, deploy, and automate any project.</div>
+        <a href="https://github.com/jenkinsci/jenkins" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">8</div>
+            <div class="repo-name">ohmyzsh</div>
+          </div>
+          <div class="repo-stars">⭐ 187,191</div>
+        </div>
+        <div class="repo-category">Developer Tooling</div>
+        <div class="repo-desc">🙃 A delightful community-driven framework for managing your zsh configuration.</div>
+        <a href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">9</div>
+            <div class="repo-name">prometheus-stack</div>
+          </div>
+          <div class="repo-stars">⭐ 4,555</div>
+        </div>
+        <div class="repo-category">Prometheus</div>
+        <div class="repo-desc">Kubernetes manifests, Grafana dashboards, and Prometheus rules for a complete monitoring stack.</div>
+        <a href="https://github.com/prometheus-community/helm-charts" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+      <div class="card">
+        <div class="repo-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div class="repo-rank">10</div>
+            <div class="repo-name">DevOps-Guide</div>
+          </div>
+          <div class="repo-stars">⭐ 9,220</div>
+        </div>
+        <div class="repo-category">Grafana / Learning</div>
+        <div class="repo-desc">DevOps Guide from basic understanding to complete CI/CD setup — comprehensive learning path.</div>
+        <a href="https://github.com/Tikam02/DevOps-Guide" target="_blank" rel="noopener" class="repo-link">View on GitHub →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 2: GITHUB ACTIONS -->
+  <div id="tab-actions" class="tab-panel">
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+      <!-- Workflow 1 -->
+      <div class="card">
+        <div class="workflow-header">
+          <div class="workflow-icon">🔎</div>
+          <div>
+            <div class="workflow-title">FDE Repository Search Workflow</div>
+            <div class="workflow-purpose">Automatically discovers and reports top FDE repositories across all major domains</div>
+          </div>
+        </div>
+        <div class="trigger-badges">
+          <span class="trigger-badge">⏰ Daily at 12:00 UTC</span>
+          <span class="trigger-badge">🖱️ Manual Dispatch</span>
+        </div>
+        <div class="workflow-section">
+          <div class="workflow-section-title">Capabilities</div>
+          <ul class="workflow-list">
+            <li>Search deployment, kubernetes, terraform, ansible, monitoring repositories</li>
+            <li>Filter by MIT license and sort by star count</li>
+            <li>Retrieve descriptions, star counts, and direct links</li>
+            <li>Generate a markdown summary report and commit it</li>
+          </ul>
+        </div>
+        <div class="yaml-block">
+<span class="cm"># .github/workflows/fde-repo-search.yml</span>
+<span class="kw">name</span>: <span class="str">FDE Repository Discovery</span>
+<span class="kw">on</span>:
+  <span class="kw">schedule</span>:
+    - <span class="kw">cron</span>: <span class="str">'0 12 * * *'</span>
+  <span class="kw">workflow_dispatch</span>:
+<span class="kw">jobs</span>:
+  <span class="kw">search-repos</span>:
+    <span class="kw">runs-on</span>: <span class="val">ubuntu-latest</span>
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+      - <span class="kw">name</span>: <span class="str">Search FDE Repositories</span>
+        <span class="kw">env</span>:
+          <span class="kw">GITHUB_TOKEN</span>: <span class="str">${{ secrets.GITHUB_TOKEN }}</span>
+        <span class="kw">run</span>: |
+          <span class="val">DOMAINS=("deployment" "kubernetes" "terraform" "ansible" "monitoring" "jenkins")</span>
+          <span class="val">echo "# FDE Resource Report - $(date)" > REPORT.md</span>
+          <span class="val">for DOMAIN in "${DOMAINS[@]}"; do</span>
+            <span class="val">  echo "## $DOMAIN" >> REPORT.md</span>
+            <span class="val">  gh api "search/repositories?q=$DOMAIN+license:MIT&sort=stars&per_page=5" \</span>
+            <span class="val">    --jq '.items[] | "- [\(.name)](\(.html_url)) ⭐\(.stargazers_count)"' >> REPORT.md</span>
+          <span class="val">done</span>
+      - <span class="kw">name</span>: <span class="str">Commit Report</span>
+        <span class="kw">run</span>: |
+          <span class="val">git config --global user.email "actions@github.com"</span>
+          <span class="val">git config --global user.name "GitHub Actions"</span>
+          <span class="val">git add REPORT.md && git diff --staged --quiet || git commit -m "chore: update FDE report" && git push</span>
+        </div>
+      </div>
+
+      <!-- Workflow 2 -->
+      <div class="card">
+        <div class="workflow-header">
+          <div class="workflow-icon">🚀</div>
+          <div>
+            <div class="workflow-title">Deployment CI/CD Pipeline</div>
+            <div class="workflow-purpose">Complete build → test → containerize → deploy workflow with blue-green strategy</div>
+          </div>
+        </div>
+        <div class="trigger-badges">
+          <span class="trigger-badge">🌿 Push to main</span>
+          <span class="trigger-badge">🖱️ Manual Dispatch</span>
+        </div>
+        <div class="workflow-section">
+          <div class="workflow-section-title">Pipeline Stages</div>
+          <ul class="workflow-list">
+            <li>Build application artifacts and run test suites</li>
+            <li>Build Docker image and push to registry</li>
+            <li>Blue-Green deployment with traffic switching</li>
+            <li>Automated smoke tests and rollback on failure</li>
+          </ul>
+        </div>
+        <div class="yaml-block">
+<span class="cm"># .github/workflows/deployment-pipeline.yml</span>
+<span class="kw">name</span>: <span class="str">Production Deployment Pipeline</span>
+<span class="kw">on</span>:
+  <span class="kw">push</span>:
+    <span class="kw">branches</span>: [<span class="str">main</span>]
+  <span class="kw">workflow_dispatch</span>:
+<span class="kw">jobs</span>:
+  <span class="kw">build-and-test</span>:
+    <span class="kw">runs-on</span>: <span class="val">ubuntu-latest</span>
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+      - <span class="kw">name</span>: <span class="str">Build & Test</span>
+        <span class="kw">run</span>: |
+          <span class="val">make build && make test</span>
+  <span class="kw">containerize</span>:
+    <span class="kw">needs</span>: <span class="val">build-and-test</span>
+    <span class="kw">runs-on</span>: <span class="val">ubuntu-latest</span>
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+      - <span class="kw">name</span>: <span class="str">Build & Push Docker</span>
+        <span class="kw">run</span>: |
+          <span class="val">docker build -t $IMAGE_TAG .</span>
+          <span class="val">docker push $IMAGE_TAG</span>
+  <span class="kw">deploy-production</span>:
+    <span class="kw">needs</span>: <span class="val">containerize</span>
+    <span class="kw">environment</span>: <span class="val">production</span>
+    <span class="kw">runs-on</span>: <span class="val">ubuntu-latest</span>
+    <span class="kw">steps</span>:
+      - <span class="kw">name</span>: <span class="str">Blue-Green Deploy</span>
+        <span class="kw">run</span>: |
+          <span class="val">kubectl set image deployment/app-green app=$IMAGE_TAG</span>
+          <span class="val">kubectl rollout status deployment/app-green</span>
+          <span class="val">kubectl patch service app-svc -p '{"spec":{"selector":{"slot":"green"}}}'</span>
+      - <span class="kw">name</span>: <span class="str">Smoke Tests</span>
+        <span class="kw">run</span>: <span class="val">curl -f $PROD_URL/health || (kubectl rollout undo deployment/app-green && exit 1)</span>
+        </div>
+      </div>
+
+      <!-- Workflow 3 -->
+      <div class="card">
+        <div class="workflow-header">
+          <div class="workflow-icon">🔐</div>
+          <div>
+            <div class="workflow-title">Infrastructure as Code Validation</div>
+            <div class="workflow-purpose">Terraform format, validation, security scanning, and cost estimation on PRs</div>
+          </div>
+        </div>
+        <div class="trigger-badges">
+          <span class="trigger-badge">🔀 Pull Requests</span>
+          <span class="trigger-badge">📁 infra/** files</span>
+        </div>
+        <div class="workflow-section">
+          <div class="workflow-section-title">Checks Performed</div>
+          <ul class="workflow-list">
+            <li>terraform fmt — format validation</li>
+            <li>terraform validate — syntax and logic checks</li>
+            <li>TFLint — best practice enforcement</li>
+            <li>Checkov — security policy scanning</li>
+            <li>Infracost — cost estimation diff on PR</li>
+          </ul>
+        </div>
+        <div class="yaml-block">
+<span class="cm"># .github/workflows/iac-validation.yml</span>
+<span class="kw">name</span>: <span class="str">IaC Validation & Security</span>
+<span class="kw">on</span>:
+  <span class="kw">pull_request</span>:
+    <span class="kw">paths</span>: [<span class="str">'infra/**'</span>, <span class="str">'terraform/**'</span>]
+<span class="kw">jobs</span>:
+  <span class="kw">validate</span>:
+    <span class="kw">runs-on</span>: <span class="val">ubuntu-latest</span>
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+      - <span class="kw">uses</span>: <span class="str">hashicorp/setup-terraform@v3</span>
+      - <span class="kw">name</span>: <span class="str">Terraform Format Check</span>
+        <span class="kw">run</span>: <span class="val">terraform fmt -check -recursive</span>
+      - <span class="kw">name</span>: <span class="str">Terraform Validate</span>
+        <span class="kw">run</span>: |
+          <span class="val">terraform init -backend=false</span>
+          <span class="val">terraform validate</span>
+      - <span class="kw">name</span>: <span class="str">TFLint</span>
+        <span class="kw">uses</span>: <span class="str">terraform-linters/setup-tflint@v4</span>
+      - <span class="kw">name</span>: <span class="str">Checkov Security Scan</span>
+        <span class="kw">uses</span>: <span class="str">bridgecrewio/checkov-action@v12</span>
+        <span class="kw">with</span>:
+          <span class="kw">directory</span>: <span class="str">infra/</span>
+          <span class="kw">framework</span>: <span class="str">terraform</span>
+      - <span class="kw">name</span>: <span class="str">Infracost Estimate</span>
+        <span class="kw">uses</span>: <span class="str">infracost/actions/setup@v3</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 3: SEARCH QUERIES -->
+  <div id="tab-queries" class="tab-panel">
+    <div class="grid-2">
+
+      <div class="card query-card">
+        <div class="query-number">Query 01</div>
+        <div class="query-string">deployment license:MIT</div>
+        <div class="query-desc">Find MIT-licensed deployment tools and frameworks — the foundation for any FDE toolkit.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'deployment license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 02</div>
+        <div class="query-string">kubernetes license:MIT</div>
+        <div class="query-desc">Discover Kubernetes resources, operators, and projects for container orchestration.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'kubernetes license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 03</div>
+        <div class="query-string">terraform license:MIT</div>
+        <div class="query-desc">Find Infrastructure as Code modules, providers, and Terraform tooling.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'terraform license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 04</div>
+        <div class="query-string">ansible license:MIT</div>
+        <div class="query-desc">Ansible automation playbooks, roles, and configuration management resources.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'ansible license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 05</div>
+        <div class="query-string">monitoring license:MIT</div>
+        <div class="query-desc">Monitoring, logging, observability, and alerting tools for production systems.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'monitoring license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 06</div>
+        <div class="query-string">jenkins OR gitlab-ci license:MIT</div>
+        <div class="query-desc">CI/CD pipeline tools and integration frameworks for automated build pipelines.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'jenkins OR gitlab-ci license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 07</div>
+        <div class="query-string">docker license:MIT</div>
+        <div class="query-desc">Container tooling, Docker utilities, and image management projects.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'docker license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 08</div>
+        <div class="query-string">deployment kubernetes terraform ansible monitoring jenkins docker license:MIT</div>
+        <div class="query-desc">Comprehensive FDE search — combine all major domains in one query for broad discovery.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'deployment kubernetes terraform ansible monitoring jenkins docker license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 09</div>
+        <div class="query-string">devops knowledge guide license:MIT</div>
+        <div class="query-desc">DevOps knowledge repositories, learning guides, and reference documentation.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'devops knowledge guide license:MIT')">📋 Copy Query</button>
+      </div>
+
+      <div class="card query-card">
+        <div class="query-number">Query 10</div>
+        <div class="query-string">infrastructure automation cloud deployment license:MIT</div>
+        <div class="query-desc">All FDE categories in one comprehensive cloud infrastructure search query.</div>
+        <button class="copy-btn" onclick="copyQuery(this, 'infrastructure automation cloud deployment license:MIT')">📋 Copy Query</button>
+      </div>
+
+    </div>
+
+    <div class="notes-box">
+      <h4>💡 Usage Tips</h4>
+      <ul>
+        <li>Paste any query directly into the GitHub search bar at github.com/search</li>
+        <li>Modify <code>license:MIT</code> to <code>license:apache-2.0</code> or remove it for broader results</li>
+        <li>Add <code>sort:stars</code> to the URL to see most popular results first</li>
+        <li>Combine multiple queries with OR for broader discovery scopes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB 4: RANKINGS -->
+  <div id="tab-rankings" class="tab-panel">
+    <div style="max-width:680px;margin:0 auto;">
+      <div class="ranking-item">
+        <div class="rank-position rank-1">🥇</div>
+        <div class="rank-info">
+          <div class="rank-name">the-book-of-secret-knowledge</div>
+          <div class="rank-category">DevOps Knowledge Base</div>
+        </div>
+        <div class="rank-stars-big">⭐ 223,314</div>
+      </div>
+      <div class="ranking-item">
+        <div class="rank-position rank-2">🥈</div>
+        <div class="rank-info">
+          <div class="rank-name">uptime-kuma</div>
+          <div class="rank-category">Monitoring &amp; Uptime</div>
+        </div>
+        <div class="rank-stars-big">⭐ 87,108</div>
+      </div>
+      <div class="ranking-item">
+        <div class="rank-position rank-3">🥉</div>
+        <div class="rank-info">
+          <div class="rank-name">traefik</div>
+          <div class="rank-category">Kubernetes &amp; Load Balancing</div>
+        </div>
+        <div class="rank-stars-big">⭐ 63,282</div>
+      </div>
+      <div class="ranking-item">
+        <div class="rank-position rank-4">4</div>
+        <div class="rank-info">
+          <div class="rank-name">fastlane</div>
+          <div class="rank-category">Build Automation &amp; Deployment</div>
+        </div>
+        <div class="rank-stars-big">⭐ 41,559</div>
+      </div>
+      <div class="ranking-item">
+        <div class="rank-position rank-5">5</div>
+        <div class="rank-info">
+          <div class="rank-name">jenkins</div>
+          <div class="rank-category">CI/CD Automation</div>
+        </div>
+        <div class="rank-stars-big">⭐ 25,285</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:3rem;"></div>
+</div>
+
+<footer>
+  <p>
+    <strong>Sreenath Gopalakrishnan</strong> · Forward Deployment Engineer ·
+    <a href="index.html">Portfolio</a> ·
+    <a href="mailto:sreenathgopal@gmail.com">sreenathgopal@gmail.com</a> ·
+    <a href="https://github.com/sreenathgopal" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    document.querySelector('.theme-btn').textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function copyQuery(btn, query) {
+    navigator.clipboard.writeText(query).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📋 Copy Query';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>

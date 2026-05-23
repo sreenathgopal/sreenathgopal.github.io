@@ -1,11 +1,43 @@
 {
-  "name": "trimstray/the-book-of-secret-knowledge",
-  "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more",
-  "stars": 223314,
-  "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
-  "language": "Various",
-  "topics": ["devops", "cheatsheet", "hacking", "sysadmin"],
-  "updated_at": "2026-05-23T00:05:00Z",
   "fetched_date": "2026-05-23",
-  "fetched_at": "2026-05-23T00:05:00Z"
+  "fetched_at": "2026-05-23T00:05:00Z",
+  "query": "devops OR kubernetes OR deployment OR terraform OR ansible OR mlops",
+  "repos": [
+    {
+      "rank": 1,
+      "name": "trimstray/the-book-of-secret-knowledge",
+      "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more",
+      "stars": 223314,
+      "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+      "language": "Shell",
+      "topics": ["devops", "cheatsheet", "sysadmin"]
+    },
+    {
+      "rank": 2,
+      "name": "louislam/uptime-kuma",
+      "description": "A fancy self-hosted monitoring tool — the modern alternative to Uptime Robot with a beautiful UI",
+      "stars": 87108,
+      "url": "https://github.com/louislam/uptime-kuma",
+      "language": "JavaScript",
+      "topics": ["monitoring", "uptime", "self-hosted"]
+    },
+    {
+      "rank": 3,
+      "name": "traefik/traefik",
+      "description": "The Cloud Native Application Proxy — modern reverse proxy and load balancer for microservices",
+      "stars": 63282,
+      "url": "https://github.com/traefik/traefik",
+      "language": "Go",
+      "topics": ["kubernetes", "proxy", "load-balancer"]
+    },
+    {
+      "rank": 4,
+      "name": "fastlane/fastlane",
+      "description": "Automate building, testing, and releasing mobile and desktop applications with ease",
+      "stars": 41559,
+      "url": "https://github.com/fastlane/fastlane",
+      "language": "Ruby",
+      "topics": ["deployment", "automation", "ci-cd"]
+    }
+  ]
 }

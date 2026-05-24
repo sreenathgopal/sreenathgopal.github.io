@@ -1,0 +1,33 @@
+{
+  "updated_at": "2026-05-24T13:23:59.375846+00:00",
+  "public_repos": 24,
+  "followers": 7,
+  "following": 8,
+  "top_repos": [
+    {
+      "name": "sreenathgopal.github.io",
+      "stars": 0,
+      "description": "Forward Deployment Engineer portfolio - hosted on GitHub Pages"
+    },
+    {
+      "name": "oracle-ai-developer-hub",
+      "stars": 1,
+      "description": "Technical resources for AI developers to build applications, agents, and systems using Oracle AI Database and OCI services"
+    },
+    {
+      "name": "NemoClaw",
+      "stars": 1,
+      "description": "Run OpenClaw more securely inside NVIDIA OpenShell with managed inference"
+    },
+    {
+      "name": "paperclip",
+      "stars": 0,
+      "description": "Open-source orchestration for zero-human companies"
+    },
+    {
+      "name": "everything-claude-code",
+      "stars": 0,
+      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond."
+    }
+  ]
+}

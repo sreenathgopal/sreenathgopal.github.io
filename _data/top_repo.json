@@ -1,43 +1,59 @@
 {
-  "fetched_date": "2026-05-23",
-  "fetched_at": "2026-05-23T00:05:00Z",
+  "fetched_date": "2026-05-24",
+  "fetched_at": "2026-05-24T04:23:21.297166+00:00",
   "query": "devops OR kubernetes OR deployment OR terraform OR ansible OR mlops",
   "repos": [
     {
       "rank": 1,
       "name": "trimstray/the-book-of-secret-knowledge",
-      "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more",
-      "stars": 223314,
+      "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.",
+      "stars": 223927,
       "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
-      "language": "Shell",
-      "topics": ["devops", "cheatsheet", "sysadmin"]
+      "language": "Various",
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "bsd"
+      ]
     },
     {
       "rank": 2,
-      "name": "louislam/uptime-kuma",
-      "description": "A fancy self-hosted monitoring tool — the modern alternative to Uptime Robot with a beautiful UI",
-      "stars": 87108,
-      "url": "https://github.com/louislam/uptime-kuma",
-      "language": "JavaScript",
-      "topics": ["monitoring", "uptime", "self-hosted"]
+      "name": "langflow-ai/langflow",
+      "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
+      "stars": 148698,
+      "url": "https://github.com/langflow-ai/langflow",
+      "language": "Python",
+      "topics": [
+        "agents",
+        "chatgpt",
+        "generative-ai"
+      ]
     },
     {
       "rank": 3,
-      "name": "traefik/traefik",
-      "description": "The Cloud Native Application Proxy — modern reverse proxy and load balancer for microservices",
-      "stars": 63282,
-      "url": "https://github.com/traefik/traefik",
-      "language": "Go",
-      "topics": ["kubernetes", "proxy", "load-balancer"]
+      "name": "binhnguyennus/awesome-scalability",
+      "description": "The Patterns of Scalable, Reliable, and Performant Large-Scale Systems",
+      "stars": 71199,
+      "url": "https://github.com/binhnguyennus/awesome-scalability",
+      "language": "Various",
+      "topics": [
+        "architecture",
+        "awesome",
+        "awesome-list"
+      ]
     },
     {
       "rank": 4,
-      "name": "fastlane/fastlane",
-      "description": "Automate building, testing, and releasing mobile and desktop applications with ease",
-      "stars": 41559,
-      "url": "https://github.com/fastlane/fastlane",
-      "language": "Ruby",
-      "topics": ["deployment", "automation", "ci-cd"]
+      "name": "nektos/act",
+      "description": "Run your GitHub Actions locally \ud83d\ude80",
+      "stars": 70472,
+      "url": "https://github.com/nektos/act",
+      "language": "Go",
+      "topics": [
+        "ci",
+        "devops",
+        "github-actions"
+      ]
     }
   ]
 }

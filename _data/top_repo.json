@@ -1,13 +1,13 @@
 {
-  "fetched_date": "2026-07-05",
-  "fetched_at": "2026-07-05T04:14:51.991180+00:00",
+  "fetched_date": "2026-07-06",
+  "fetched_at": "2026-07-06T04:22:13.369194+00:00",
   "query": "devops OR kubernetes OR deployment OR terraform OR ansible OR mlops",
   "repos": [
     {
       "rank": 1,
       "name": "trimstray/the-book-of-secret-knowledge",
       "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.",
-      "stars": 231676,
+      "stars": 231849,
       "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
       "language": "Various",
       "topics": [
@@ -20,7 +20,7 @@
       "rank": 2,
       "name": "langflow-ai/langflow",
       "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-      "stars": 151141,
+      "stars": 151208,
       "url": "https://github.com/langflow-ai/langflow",
       "language": "Python",
       "topics": [
@@ -33,7 +33,7 @@
       "rank": 3,
       "name": "binhnguyennus/awesome-scalability",
       "description": "The Patterns of Scalable, Reliable, and Performant Large-Scale Systems",
-      "stars": 72218,
+      "stars": 72237,
       "url": "https://github.com/binhnguyennus/awesome-scalability",
       "language": "Various",
       "topics": [
@@ -46,7 +46,7 @@
       "rank": 4,
       "name": "nektos/act",
       "description": "Run your GitHub Actions locally \ud83d\ude80",
-      "stars": 70943,
+      "stars": 70959,
       "url": "https://github.com/nektos/act",
       "language": "Go",
       "topics": [

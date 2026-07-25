@@ -1,9 +1,14 @@
 {
-  "updated_at": "2026-07-24T13:41:34.219247+00:00",
-  "public_repos": 24,
+  "updated_at": "2026-07-25T13:21:58.062645+00:00",
+  "public_repos": 25,
   "followers": 11,
   "following": 8,
   "top_repos": [
+    {
+      "name": "Unlimited-OCR",
+      "stars": 0,
+      "description": "Unlimited OCR Works: Welcome the Era of One-shot Long-horizon Parsing."
+    },
     {
       "name": "sreenathgopal.github.io",
       "stars": 0,
@@ -23,11 +28,6 @@
       "name": "paperclip",
       "stars": 0,
       "description": "Open-source orchestration for zero-human companies"
-    },
-    {
-      "name": "everything-claude-code",
-      "stars": 0,
-      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond."
     }
   ]
 }

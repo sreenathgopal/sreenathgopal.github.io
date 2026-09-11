@@ -1,13 +1,13 @@
 {
-  "fetched_date": "2026-09-10",
-  "fetched_at": "2026-09-10T04:26:19.972744+00:00",
+  "fetched_date": "2026-09-11",
+  "fetched_at": "2026-09-11T04:26:08.481188+00:00",
   "query": "devops OR kubernetes OR deployment OR terraform OR ansible OR mlops",
   "repos": [
     {
       "rank": 1,
       "name": "trimstray/the-book-of-secret-knowledge",
       "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.",
-      "stars": 242932,
+      "stars": 243080,
       "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
       "language": "Various",
       "topics": [
@@ -20,7 +20,7 @@
       "rank": 2,
       "name": "langflow-ai/langflow",
       "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-      "stars": 154526,
+      "stars": 154558,
       "url": "https://github.com/langflow-ai/langflow",
       "language": "Python",
       "topics": [
@@ -33,7 +33,7 @@
       "rank": 3,
       "name": "binhnguyennus/awesome-scalability",
       "description": "The Patterns of Scalable, Reliable, and Performant Large-Scale Systems",
-      "stars": 73838,
+      "stars": 73853,
       "url": "https://github.com/binhnguyennus/awesome-scalability",
       "language": "Various",
       "topics": [
@@ -44,15 +44,15 @@
     },
     {
       "rank": 4,
-      "name": "nektos/act",
-      "description": "Run your GitHub Actions locally \ud83d\ude80",
-      "stars": 71867,
-      "url": "https://github.com/nektos/act",
-      "language": "Go",
+      "name": "ruvnet/ruflo",
+      "description": "\ud83c\udf0a The original agent meta-harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, RAG integration, and native Claude Code / Codex / Hermes and many more Integrated",
+      "stars": 72012,
+      "url": "https://github.com/ruvnet/ruflo",
+      "language": "TypeScript",
       "topics": [
-        "ci",
-        "devops",
-        "github-actions"
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow"
       ]
     }
   ]
